@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import {
   Image,
   View,
@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
-
-import logoImg from '../../assets/logo.png';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
+
+import logoImg from '../../assets/logo.png';
 
 import {
   Container,
@@ -27,7 +29,13 @@ import {
 const SignIn: React.FC = () => {
   const [showButton, setShowButton] = useState(true);
 
+  const formRef = useRef<FormHandles>(null);
+
   const navigation = useNavigation();
+
+  const handleSignIn = useCallback((data: object) => {
+    console.log(data);
+  }, []);
 
   const hideCreateAccountButton = useCallback(() => {
     setShowButton(false);
@@ -66,20 +74,22 @@ const SignIn: React.FC = () => {
               <Title>Faça seu logon</Title>
             </View>
 
-            <Input name="email" icon="mail" placeholder="E-amil" />
-            <Input
-              name="password"
-              icon="lock"
-              placeholder="Senha"
-              secureTextEntry
-            />
-            <Button
-              onPress={() => {
-                console.log('adof');
-              }}
-            >
-              Entrar
-            </Button>
+            <Form ref={formRef} onSubmit={handleSignIn}>
+              <Input name="email" icon="mail" placeholder="E-amil" />
+              <Input
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                secureTextEntry
+              />
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
+                Entrar
+              </Button>
+            </Form>
 
             <ForgotPassword
               onPress={() => {

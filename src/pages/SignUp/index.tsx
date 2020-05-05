@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import {
   Image,
   View,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import logoImg from '../../assets/logo.png';
 
@@ -20,7 +22,13 @@ import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 const SignUp: React.FC = () => {
   const [showButton, setShowButton] = useState(true);
 
+  const formRef = useRef<FormHandles>(null);
+
   const navigation = useNavigation();
+
+  const handleSignUp = useCallback((data: object) => {
+    console.log(data);
+  }, []);
 
   const hideCreateAccountButton = useCallback(() => {
     setShowButton(false);
@@ -59,21 +67,23 @@ const SignUp: React.FC = () => {
               <Title>Crie sua conta</Title>
             </View>
 
-            <Input name="name" icon="user" placeholder="Nome" />
-            <Input name="email" icon="mail" placeholder="E-amil" />
-            <Input
-              name="password"
-              icon="lock"
-              placeholder="Senha"
-              secureTextEntry
-            />
-            <Button
-              onPress={() => {
-                console.log('adof');
-              }}
-            >
-              Entrar
-            </Button>
+            <Form ref={formRef} onSubmit={handleSignUp}>
+              <Input name="name" icon="user" placeholder="Nome" />
+              <Input name="email" icon="mail" placeholder="E-amil" />
+              <Input
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                secureTextEntry
+              />
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
+                Criar conta
+              </Button>
+            </Form>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
