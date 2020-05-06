@@ -1,4 +1,4 @@
-#Mon May 04 15:54:58 BRT 2020
+#Wed May 06 13:43:49 BRT 2020
 base.0=C\:\\home\\igor\\Documentos\\gobarber-v2-mobile\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
